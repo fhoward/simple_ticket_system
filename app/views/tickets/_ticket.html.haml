@@ -1,7 +1,9 @@
 %div{:id => "#{dom_id ticket}"}
   %p
-    %strong Requester:
-    = ticket.requester_id
+    %strong Requester Name:
+    = ticket.requester.name
+    %br
+    = ticket.requester.email
   %p
     %strong Status:
     = ticket.status

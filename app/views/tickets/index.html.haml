@@ -1,5 +1,11 @@
 %p{:style => "color: green"}= notice
 %h1 Tickets
+
+= turbo_frame_tag 'import-form' do
+  = render 'import_form'
+
+= link_to 'Download CSV', export_tickets_path(format: :csv)
+
 #tickets
   - @tickets.each do |ticket|
     = render ticket

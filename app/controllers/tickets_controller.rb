@@ -1,3 +1,5 @@
+require 'csv'
+
 class TicketsController < ApplicationController
   before_action :set_ticket, only: %i[ show edit update destroy ]
 
@@ -58,6 +60,43 @@ class TicketsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tickets_url, notice: "Ticket was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def import
+    file_path = params[:file]&.tempfile&.path
+    ENV['USER_ID'] = current_user.id.to_s
+
+    if file_path.present?
+      ENV['CSV_FILE_PATH'] = file_path
+
+      system('rake import_csv')
+      flash[:success] = 'CSV data imported successfully.'
+    else
+      flash[:error] = 'Invalid file. Please upload a CSV file.'
+    end
+
+    redirect_to tickets_path
+  end
+
+  def export
+    if current_user.is_manager
+      data = Ticket.all
+    else
+      data = current_user.tickets
+    end
+
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"exported_data.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+        csv_data = CSV.generate do |csv|
+          csv << Ticket.column_names
+          data.each { |record| csv << record.attributes.values }
+        end
+
+        render plain: csv_data
+      end
     end
   end
 
