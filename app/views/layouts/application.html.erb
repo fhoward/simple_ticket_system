@@ -11,6 +11,11 @@
   </head>
 
   <body>
+    <% if flash[:notice] %>
+      <%= content_tag :h3, flash[:notice] %>
+    <% elsif flash[:error] %>
+      <%= content_tag :h3, flash[:error] %> 
+    <% end %>
     <%= yield %>
   </body>
 </html>

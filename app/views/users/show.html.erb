@@ -1,0 +1,2 @@
+<%= content_tag :h1, "#{current_user.name} #{current_user.is_manager}" %>
+<%= link_to "Sign out", sign_out_path, data: { turbo_method: :delete } %>
