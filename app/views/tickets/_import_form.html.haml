@@ -1,0 +1,3 @@
+= form_with(url: import_tickets_path, multipart: true, local: true, data: { target: 'import-form' }) do |form|
+  = form.file_field :file
+  = form.submit 'Import CSV', data: { turbo_frame: 'import-form' }

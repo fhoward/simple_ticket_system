@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: session_params[:email])
     if @user && @user.authenticate(session_params[:password])
       session[:user_id] = @user.id
-      redirect_to @user
+      redirect_to tickets_url
     else
       flash[:notice] = "Login is invalid!"
       redirect_to new_sign_in_path

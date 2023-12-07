@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  requester_id: 1
+  status: MyString
+  subject: MyText
+  content: MyText
+
+two:
+  requester_id: 1
+  status: MyString
+  subject: MyText
+  content: MyText
