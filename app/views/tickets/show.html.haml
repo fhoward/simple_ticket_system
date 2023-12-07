@@ -1,5 +1,9 @@
 %p{:style => "color: green"}= notice
 = render @ticket
+
+= render @ticket.comments
+
+= render 'comments/form'
 %div
   = link_to "Edit this ticket", edit_ticket_path(@ticket)
   |

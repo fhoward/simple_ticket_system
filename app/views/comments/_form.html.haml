@@ -1,0 +1,7 @@
+- if current_user.is_manager
+  %span Add a comment
+  = form_with model: [ @ticket, @ticket.comments.build ] do |f|
+    .field
+      = f.text_area :body
+    .actions
+      = f.submit 'Save'
