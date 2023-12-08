@@ -11,7 +11,7 @@ class Ticket < ApplicationRecord
     # validates_associated :comments
 
     def resolved_status?
-        status == 'resolved'
+        status == 'resolved' || status == 'Resolved'
     end
 
     def must_have_comment_to_resolve

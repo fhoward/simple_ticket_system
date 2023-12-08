@@ -39,14 +39,6 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
 
-    # if params[:ticket][:status] == 'resolved' || params[:ticket][:status] == 'Resolved'
-    #   @ticket.comments.build if @ticket.comments.empty?
-    #   @ticket.comments.first.validate_presence_of_body = true
-    # else
-    #   # Remove validation if status is not 'resolved'
-    #   Comment.clear_validators! # Clear all validations for Comment
-    # end
-
     respond_to do |format|
       if @ticket.update(ticket_params)
         format.html { redirect_to ticket_url(@ticket), notice: "Ticket was successfully updated." }
