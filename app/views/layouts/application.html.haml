@@ -3,16 +3,13 @@
 	%head
 		%meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
 		%title SimpleTicketSystem
-		%meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+		%meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
 		= csrf_meta_tags
 		= csp_meta_tag
 		= stylesheet_link_tag "application", "data-turbo-track": "reload"
 		= javascript_importmap_tags
-	%body
-		- if flash[:notice]
-			= content_tag :h3, flash[:notice]
-		- elsif flash[:error]
-			= content_tag :h3, flash[:error]
-		- if current_user
-			= link_to "Sign out", sign_out_path, data: { turbo_method: :delete }
-		= yield
+	%body.d-flex.flex-column.min-vh-100
+		= render partial: 'layouts/header'
+		.container-fluid.flex-grow-1.d-flex.flex-column.align-items-center.justify-content-center	
+			= render partial: 'layouts/flash_messages'	
+			= yield
