@@ -1,0 +1,7 @@
+%figure
+  %blockquote.blockquote
+    %p= comment.body
+  %figcaption.blockquote-footer
+    %cite
+      = comment.user.name
+    commented on #{comment.created_at.to_date}

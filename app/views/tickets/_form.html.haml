@@ -1,0 +1,21 @@
+.container
+  = form_with(model: ticket) do |f|
+    - if ticket.errors.any?
+      .alert{:style => "color: red"}
+        %h2
+          = pluralize(ticket.errors.count, "error")
+          prohibited this ticket from being saved:
+        %ul
+          - ticket.errors.each do |error|
+            %li= error.full_message
+    .mb-3
+      = f.label :status, class: 'form-label'
+      = f.select :status,  options_for_select(['New', 'Pending'], selected: ticket.status&.titleize || 'New'), {}, class: 'form-control selectpicker', data: { style: 'btn-primary' }
+    .mb-3
+      = f.label :subject, class: 'form-label'
+      = f.text_area :subject,class: 'form-control',rows: 3
+    .mb-3
+      = f.label :content, class: 'form-label'
+      = f.text_area :content, class: 'form-control',rows: 3
+    .mb-3
+      = f.submit "Create New Ticket", class: 'btn btn-primary'

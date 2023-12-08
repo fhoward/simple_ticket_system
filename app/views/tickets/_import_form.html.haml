@@ -1,0 +1,4 @@
+= form_with(url: import_tickets_path, multipart: true, method: :posts) do |f|
+  .input-group
+    = f.file_field :file,required: true,class: 'form-control'
+    = f.submit 'Import CSV', data: { turbo_frame: 'import-form' },class: 'btn btn-outline-secondary'

@@ -1,0 +1,12 @@
+.col-md-4
+  %h2.text-center.mb-4 Sign In
+  = form_with(url: sign_in_path) do |f|
+    .mb-3
+      = f.label :email, "Email address", class: 'form-label'
+      = f.email_field :email, class: 'form-control',required: true
+    .mb-3
+      = f.label :password, class: 'form-label'
+      = f.password_field :password, class: 'form-control',required: true
+    .d-grid.gap-2.col-6.mx-auto
+      = f.submit "Sign In", class: 'btn btn-primary'
+      = link_to "Sign Up", new_user_path, class: 'btn btn-link btn-block'
