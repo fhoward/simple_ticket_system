@@ -49,6 +49,8 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 gem "haml-rails", "~> 2.0"
 gem 'html2haml'
+gem 'bootstrap', '~> 5.3.2'
+gem "sassc-rails"
 
 
 group :development, :test do
