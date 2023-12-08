@@ -1,15 +1,17 @@
-%div{:id => "#{dom_id ticket}"}
-  %p
-    %strong Requester Name:
-    = ticket.requester.name
-    %br
-    = ticket.requester.email
-  %p
-    %strong Status:
-    = ticket.status
-  %p
-    %strong Subject:
-    = ticket.subject
-  %p
-    %strong Content:
-    = ticket.content
+%tr{:id => "#{dom_id ticket}"}
+  %td= ticket.requester.name
+  %td= ticket.requester.email
+  %td
+    -if ticket.status == 'new'
+      %span.badge.text-bg-success
+        = ticket.status
+    -elsif ticket.status == 'pending'
+      %span.badge.text-bg-secondary
+        = ticket.status
+    -else
+      %span.badge.text-bg-primary
+        = ticket.status
+  %td= ticket.subject
+  %td= ticket.content
+  %td= ticket.created_at.to_date
+  %td= button_to "View", ticket_url(ticket.id), class:'btn btn-primary',method: :get

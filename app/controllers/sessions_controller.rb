@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to tickets_url
     else
-      flash[:notice] = "Login is invalid!"
+      flash[:error] = "Login is invalid!"
       redirect_to new_sign_in_path
     end
   end

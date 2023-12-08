@@ -1,12 +1,46 @@
-%p{:style => "color: green"}= notice
-= render @ticket
-
+.container
+  .row
+    .btn-group
+      = button_to "Edit this ticket", edit_ticket_path(@ticket),method: :get,class: 'btn btn-primary'
+      = button_to "Back to tickets", tickets_path, method: :get, class: 'btn btn-success'
+      = button_to "Destroy this ticket", @ticket, method: :delete, class: 'btn btn-danger'
+  %br
+  .row
+    %ul.list-group
+      %li.list-group-item.d-flex.justify-content-between.align-items-start
+        .ms-2.me-auto
+          .fw-bold Requester
+          %span Name: 
+          = @ticket.requester.name
+          %br
+          %span Email:
+          = @ticket.requester.email
+      %li.list-group-item.d-flex.justify-content-between.align-items-start
+        .ms-2.me-auto
+          .fw-bold Status
+          -if @ticket.status == 'new'
+            %span.badge.text-bg-success
+              = @ticket.status
+          -elsif @ticket.status == 'pending'
+            %span.badge.text-bg-secondary
+              = @ticket.status
+          -else
+            %span.badge.text-bg-primary
+              = @ticket.status
+      %li.list-group-item.d-flex.justify-content-between.align-items-start
+        .ms-2.me-auto
+          .fw-bold Created At
+          = @ticket.created_at.to_date
+      %li.list-group-item.d-flex.justify-content-between.align-items-start
+        .ms-2.me-auto
+          .fw-bold Subject
+          = @ticket.subject
+      %li.list-group-item.d-flex.justify-content-between.align-items-start
+        .ms-2.me-auto
+          .fw-bold Content
+          = @ticket.content
+    
 = render @ticket.comments
 
 = render 'comments/form'
-%div
-  = link_to "Edit this ticket", edit_ticket_path(@ticket)
-  |
-  \#{link_to "Back to tickets", tickets_path}
-  
-  \#{button_to "Destroy this ticket", @ticket, method: :delete}
+

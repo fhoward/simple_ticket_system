@@ -1,15 +1,11 @@
 require 'csv'
 
 class TicketsController < ApplicationController
-  before_action :set_ticket, only: %i[ show edit update destroy ]
-
+  before_action :set_ticket, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_tickets, only: [ :index]
   # GET /tickets or /tickets.json
   def index
-    if current_user.is_manager
-      @tickets = Ticket.all
-    else
-       @tickets = current_user.tickets
-    end
+
   end
 
   # GET /tickets/1 or /tickets/1.json
@@ -42,6 +38,15 @@ class TicketsController < ApplicationController
 
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
+
+    # if params[:ticket][:status] == 'resolved' || params[:ticket][:status] == 'Resolved'
+    #   @ticket.comments.build if @ticket.comments.empty?
+    #   @ticket.comments.first.validate_presence_of_body = true
+    # else
+    #   # Remove validation if status is not 'resolved'
+    #   Comment.clear_validators! # Clear all validations for Comment
+    # end
+
     respond_to do |format|
       if @ticket.update(ticket_params)
         format.html { redirect_to ticket_url(@ticket), notice: "Ticket was successfully updated." }
@@ -64,18 +69,18 @@ class TicketsController < ApplicationController
   end
 
   def import
+    # debugger
     file_path = params[:file]&.tempfile&.path
     ENV['USER_ID'] = current_user.id.to_s
 
-    if file_path.present?
+    if file_path.present? && File.extname(file_path) == '.csv'
       ENV['CSV_FILE_PATH'] = file_path
 
       system('rake import_csv')
-      flash[:success] = 'CSV data imported successfully.'
+      flash[:notice] = 'CSV data imported successfully.'
     else
       flash[:error] = 'Invalid file. Please upload a CSV file.'
     end
-
     redirect_to tickets_path
   end
 
@@ -104,6 +109,22 @@ class TicketsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
       @ticket = Ticket.find(params[:id])
+    end
+
+    def set_tickets
+      if current_user.is_manager
+        @tickets = Ticket.all
+      else
+        @tickets = current_user.tickets
+      end
+
+      set_ticket_counts
+    end
+
+    def set_ticket_counts
+      @ticket_new = @tickets.where(status: 'new').count
+      @ticket_pending = @tickets.where(status: 'pending').count
+      @ticket_resolved = @tickets.where(status: 'resolved').count
     end
 
     # Only allow a list of trusted parameters through.
