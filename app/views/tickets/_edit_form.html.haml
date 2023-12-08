@@ -10,7 +10,13 @@
             %li= error.full_message
     .mb-3
       = f.label :status, class: 'form-label'
-      = f.select :status,  options_for_select(['New', 'Pending'], selected: ticket.status&.titleize || 'New'), {}, class: 'form-control selectpicker', data: { style: 'btn-primary' }
+      = f.select :status,  options_for_select(['New', 'Pending', 'Resolved'], selected: ticket.status.titleize), {}, class: 'form-control selectpicker',id:'ticket_status', data: { style: 'btn-primary' }
+    -if ticket.status == 'Resolved'
+    .mb-3#comment_field
+      .d-none
+        = f.fields_for :comments, ticket.comments.first_or_initialize do |comment_fields|
+          = comment_fields.label :body
+          = comment_fields.text_area :body,class: 'form-control'
     .mb-3
       = f.label :subject, class: 'form-label'
       = f.text_area :subject,class: 'form-control',rows: 3
@@ -18,4 +24,4 @@
       = f.label :content, class: 'form-label'
       = f.text_area :content, class: 'form-control',rows: 3
     .mb-3
-      = f.submit "Create New Ticket", class: 'btn btn-primary'
+      = f.submit "Update Ticket", class: 'btn btn-primary',remote: true

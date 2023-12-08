@@ -1,7 +1,8 @@
 - if current_user.is_manager
-  %span Add a comment
-  = form_with model: [ @ticket, @ticket.comments.build ] do |f|
-    .field
-      = f.text_area :body
-    .actions
-      = f.submit 'Save'
+  .container
+    %span Add a comment
+    = form_with model: [ @ticket, @ticket.comments.build ] do |f|
+      .mb-3
+        = f.text_area :body,required: true,class: 'form-control', rows: 9
+      .mb-3
+        = f.submit 'Post',class: 'btn btn-primary'
